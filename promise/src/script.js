@@ -60,4 +60,17 @@ var images = [
   "./assets/025-happy.png"
 ];
 
-/// WRITE CODE UNDER HERE
+// Contains all promises of the images loading.
+var promiseArray = [];
+
+images.forEach(currentImageUrl => {
+
+  // Loading image with the current url 
+  // and adding th promise for when the loading
+  // is finished to the to promise array.
+  promiseArray.push(loadImage(currentImageUrl));
+});
+
+var allImagesFinishedPromise = Promise.all(promiseArray);
+
+allImagesFinishedPromise.then(image => console.log(image))
