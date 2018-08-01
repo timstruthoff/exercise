@@ -83,7 +83,15 @@ allImagesFinishedPromise.then(images => {
   // Appending all images to dom
   images.forEach(currentImage => {
     document.body.appendChild(currentImage);
+  });
 
+  // Index of the image that is currently
+  let currentIndex = 0;
+
+
+  // Looping function which gets executed for each image
+  function animateNextImage() {
+    let currentImage = images[currentIndex];
     // Animating all items
     animate(currentImage, ANIMATION_DURATION, '200px', '0px')
       .then(() => {
@@ -94,6 +102,24 @@ allImagesFinishedPromise.then(images => {
       })
       .then(() => {
         return animate(currentImage, ANIMATION_DURATION, '0px', '0px');
+      })
+      .then(() => {
+        currentIndex++;
+
+        // Checking if at the end of array
+        if (currentIndex === images.length) {
+
+          // All images are animated
+          console.log('finished')
+        } else {
+
+          // If not starting the animation for the next item.
+          animateNextImage();
+        }
+      })
+      .catch(reason => {
+        console.error(reason);
       });
-  });
+  }
+  animateNextImage();
 });
